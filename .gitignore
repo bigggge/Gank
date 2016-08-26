@@ -1,4 +1,5 @@
 ### Android template
+
 # Built application files
 *.apk
 *.ap_
@@ -37,6 +38,14 @@ captures/
 *.iml
 .idea/workspace.xml
 
+# IntelliJ project files
+.idea
+
 # Keystore files
 *.jks
+
+### Example user template template
+### Example user template
+
+
 
