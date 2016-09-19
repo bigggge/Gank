@@ -2,25 +2,37 @@ package cc.handuoyu.gank;
 
 import android.app.Application;
 
-import cc.handuoyu.gank.api.GankRetrofit;
+import cc.handuoyu.gank.injector.components.AppComponent;
+import cc.handuoyu.gank.injector.components.DaggerAppComponent;
+import cc.handuoyu.gank.injector.modules.AppModule;
 
 /**
  * Created by xiepan on 16/8/22.
  */
-public class Gank extends Application {
+public class GankApplication extends Application {
 
     public static String cacheDir;
+    private AppComponent mAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        GankRetrofit.i.init();
+
+//        GankRetrofit.i.init();
+
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
 
         if (getApplicationContext().getExternalCacheDir() != null && isExistSDCard()) {
             cacheDir = getApplicationContext().getExternalCacheDir().toString();
         } else {
             cacheDir = getApplicationContext().getCacheDir().toString();
         }
+    }
+
+    public AppComponent getAppComponent() {
+        return mAppComponent;
     }
 
 

@@ -9,28 +9,25 @@ import android.view.MenuItem;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cc.handuoyu.gank.R;
-import cc.handuoyu.gank.presenter.BasePresenter;
+import cc.handuoyu.gank.injector.components.AppComponent;
 
 /**
  * Created by xiepan on 16/8/22.
  */
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
 
-    protected P mPresenter;
-
-    protected abstract void initPresenter();
-
     protected abstract int getLayout();
+
+    protected abstract void setupActivityComponent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        setupActivityComponent();
         ButterKnife.bind(this);
-        initPresenter();
-        checkPresenterIsNull();
         initToolBar();
     }
 
@@ -44,11 +41,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onPause();
     }
 
-    private void checkPresenterIsNull() {
-        if (mPresenter == null) {
-            throw new IllegalStateException("please init mPresenter in initPresenter() method ");
-        }
-    }
 
     protected int getMenuRes() {
         return -1;

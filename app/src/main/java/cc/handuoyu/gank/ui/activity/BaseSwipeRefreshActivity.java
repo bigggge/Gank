@@ -5,13 +5,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import butterknife.BindView;
 import cc.handuoyu.gank.R;
-import cc.handuoyu.gank.presenter.BasePresenter;
-import cc.handuoyu.gank.ui.view.ISwipeRefreshView;
+import cc.handuoyu.gank.mvp.view.ISwipeRefreshView;
 
 /**
  * Created by xiepan on 16/8/22.
  */
-public abstract class BaseSwipeRefreshActivity<P extends BasePresenter> extends BaseActivity<P> implements ISwipeRefreshView {
+public abstract class BaseSwipeRefreshActivity extends BaseActivity implements ISwipeRefreshView {
 
     @BindView(R.id.swipe_refresh_layout)
     protected SwipeRefreshLayout mSwipeRefreshLayout;

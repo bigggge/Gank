@@ -1,10 +1,10 @@
-package cc.handuoyu.gank.model;
+package cc.handuoyu.gank.mvp.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import cc.handuoyu.gank.model.entity.GankEntity;
+import cc.handuoyu.gank.mvp.model.entity.GankEntity;
 
 /**
  * Created by xiepan on 16/8/22.

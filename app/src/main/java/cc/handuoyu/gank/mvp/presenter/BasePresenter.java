@@ -1,14 +1,15 @@
-package cc.handuoyu.gank.presenter;
+package cc.handuoyu.gank.mvp.presenter;
 
 import android.app.Activity;
 
 import cc.handuoyu.gank.api.GankApi;
 import cc.handuoyu.gank.api.GankRetrofit;
-import cc.handuoyu.gank.ui.view.IBaseView;
+import cc.handuoyu.gank.mvp.view.IBaseView;
 
 /**
  * Created by xiepan on 16/8/22.
  */
+@Deprecated
 public class BasePresenter<V extends IBaseView> {
     public static final GankApi mGank = GankRetrofit.i.getService();
     protected V mView;
@@ -16,6 +17,10 @@ public class BasePresenter<V extends IBaseView> {
 
     public BasePresenter(Activity context, V view) {
         mContext = context;
+        mView = view;
+    }
+
+    public BasePresenter(V view) {
         mView = view;
     }
 }

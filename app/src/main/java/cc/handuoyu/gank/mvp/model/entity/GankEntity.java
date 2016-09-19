@@ -1,4 +1,4 @@
-package cc.handuoyu.gank.model.entity;
+package cc.handuoyu.gank.mvp.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 

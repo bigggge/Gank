@@ -1,4 +1,4 @@
-package cc.handuoyu.gank.ui.view;
+package cc.handuoyu.gank.mvp.view;
 
 /**
  * Created by xiepan on 16/8/22.

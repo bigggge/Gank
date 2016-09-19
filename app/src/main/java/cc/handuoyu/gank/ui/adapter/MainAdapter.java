@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cc.handuoyu.gank.R;
-import cc.handuoyu.gank.model.entity.GankEntity;
+import cc.handuoyu.gank.mvp.model.entity.GankEntity;
 
 interface OnClickItemListener {
     void onTouch(View v, GankEntity entity);

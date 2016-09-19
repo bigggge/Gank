@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by xiepan on 16/8/22.
  */
+@Deprecated
 public enum GankRetrofit {
     i;
 

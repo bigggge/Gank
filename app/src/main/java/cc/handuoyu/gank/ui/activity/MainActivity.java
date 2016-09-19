@@ -8,53 +8,79 @@ import android.support.v7.widget.RecyclerView;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import cc.handuoyu.gank.GankApplication;
 import cc.handuoyu.gank.R;
-import cc.handuoyu.gank.model.entity.GankEntity;
-import cc.handuoyu.gank.presenter.MainPresenter;
+import cc.handuoyu.gank.injector.components.DaggerMainComponent;
+import cc.handuoyu.gank.injector.modules.MainModule;
+import cc.handuoyu.gank.mvp.model.entity.GankEntity;
+import cc.handuoyu.gank.mvp.presenter.MainPresenter;
+import cc.handuoyu.gank.mvp.view.IMainView;
 import cc.handuoyu.gank.ui.adapter.MainAdapter;
-import cc.handuoyu.gank.ui.view.IMainView;
-import cc.handuoyu.gank.utils.LLog;
 
 /**
  * Created by xiepan on 16/8/22.
  */
-public class MainActivity extends BaseSwipeRefreshActivity<MainPresenter> implements IMainView<List<GankEntity>> {
+public class MainActivity extends BaseSwipeRefreshActivity implements IMainView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    MainAdapter mAdapter;
+    @Inject
+    MainPresenter mPresenter;
 
+    MainAdapter mAdapter;
     private boolean mHasMoreData = true;
 
 
     @Override
     protected void onRefresh() {
-        getData();
+        mPresenter.loadPage(new Date(System.currentTimeMillis()));
     }
-
-    @Override
-    protected void initPresenter() {
-        mPresenter = new MainPresenter(this, this);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Gank", false);
         initRecycleView();
-        getData();
+
+        mPresenter.attachView(this);
+        mPresenter.onCreate();
     }
 
-    private void getData() {
-        mPresenter.loadPage(new Date(System.currentTimeMillis()));
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mPresenter.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.onPause();
     }
 
     @Override
     protected int getLayout() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void setupActivityComponent() {
+        DaggerMainComponent.builder()
+                .appComponent(((GankApplication) getApplication()).getAppComponent())
+                .mainModule(new MainModule(this))
+                .build()
+                .inject(this);
+//        .builder()
+//                .activityModule(new ActivityModule(this))
+//                .appComponent(((GankApplication) getApplication()).getAppComponent())
+//                .avengerInformationModule(new AvengerInformationModule(avengerId))
+//                .build().inject(this);
+
+
     }
 
     @Override

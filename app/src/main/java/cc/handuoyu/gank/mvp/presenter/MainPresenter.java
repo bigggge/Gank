@@ -1,15 +1,15 @@
-package cc.handuoyu.gank.presenter;
-
-import android.app.Activity;
+package cc.handuoyu.gank.mvp.presenter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import cc.handuoyu.gank.model.GankData;
-import cc.handuoyu.gank.model.entity.GankEntity;
-import cc.handuoyu.gank.ui.view.IMainView;
+import cc.handuoyu.gank.api.GankApi;
+import cc.handuoyu.gank.mvp.model.GankData;
+import cc.handuoyu.gank.mvp.model.entity.GankEntity;
+import cc.handuoyu.gank.mvp.view.IBaseView;
+import cc.handuoyu.gank.mvp.view.IMainView;
 import cc.handuoyu.gank.utils.LLog;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by xiepan on 16/8/22.
  */
-public class MainPresenter extends BasePresenter<IMainView> {
+public class MainPresenter implements IPresenter {
 
     private static final int DAY_OF_MILLISECOND = 24 * 60 * 60 * 1000;
     List<GankEntity> mGankList = new ArrayList<>();
@@ -29,8 +29,37 @@ public class MainPresenter extends BasePresenter<IMainView> {
     private boolean hasLoadMoreData = false;
     private boolean needClear = true;
 
-    public MainPresenter(Activity context, IMainView view) {
-        super(context, view);
+    //2016/9/19
+    private IMainView mView;
+    private GankApi mApi;
+
+    public MainPresenter(GankApi api) {
+        mApi = api;
+    }
+
+    @Override
+    public void attachView(IBaseView v) {
+        mView = (IMainView) v;
+    }
+
+    @Override
+    public void onCreate() {
+        loadPage(new Date(System.currentTimeMillis()));
+    }
+
+    @Override
+    public void onStart() {
+
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
+    public void onStop() {
+
     }
 
     @SuppressWarnings("unchecked")
@@ -43,7 +72,7 @@ public class MainPresenter extends BasePresenter<IMainView> {
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         LLog.d("year: " + year + " month: " + month + " day: " + day);
-        mGank.getGanks(year, month, day)
+        mApi.getGanks(year, month, day)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 //转换数据格式

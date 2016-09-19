@@ -11,13 +11,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cc.handuoyu.gank.BuildConfig;
-import cc.handuoyu.gank.Gank;
+import cc.handuoyu.gank.GankApplication;
 
 /**
  * Created by xiepan on 16/8/26.
  */
 public class LLog {
-    public static final String PATH = Gank.cacheDir;
+    public static final String PATH = GankApplication.cacheDir;
     public static final String PLOG_FILE_NAME = "log.txt";
     /**
      * 是否写入日志文件

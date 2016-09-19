@@ -1,4 +1,4 @@
-package cc.handuoyu.gank.model;
+package cc.handuoyu.gank.mvp.model;
 
 /**
  * Created by xiepan on 16/8/22.

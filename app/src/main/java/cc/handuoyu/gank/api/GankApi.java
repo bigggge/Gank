@@ -1,8 +1,8 @@
 package cc.handuoyu.gank.api;
 
-import cc.handuoyu.gank.model.GankData;
-import cc.handuoyu.gank.model.GirlData;
-import cc.handuoyu.gank.model.VideoData;
+import cc.handuoyu.gank.mvp.model.GankData;
+import cc.handuoyu.gank.mvp.model.GirlData;
+import cc.handuoyu.gank.mvp.model.VideoData;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import rx.Observable;
