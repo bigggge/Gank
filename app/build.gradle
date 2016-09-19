@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "cc.handuoyu.gank"
+        applicationId "cc.haoduoyu.gank"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
