@@ -19,15 +19,13 @@ import rx.schedulers.Schedulers;
 public class GirlPresenter extends BasePresenter<IMainView> {
 
     private int mCurrentPage = 1;
-
     private static final int PAGE_SIZE = 10;
-    private boolean needClear = true;
-
 
     public GirlPresenter(Activity context, IMainView view) {
         super(context, view);
     }
 
+    @SuppressWarnings("unchecked")
     public void loadPage() {
         mGank.getGirls(PAGE_SIZE, mCurrentPage)
                 .subscribeOn(Schedulers.io())
@@ -41,34 +39,41 @@ public class GirlPresenter extends BasePresenter<IMainView> {
                 .subscribe(new Subscriber<List<GankEntity>>() {
                     @Override
                     public void onCompleted() {
-
+                        mView.hideRefreshView();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        mView.showErrorView();
                         LLog.e(e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<GankEntity> girlEntities) {
                         if (girlEntities.isEmpty()) {
-                            mView.hasNoMoreData();
+                            //没有数据
+                            mView.showEmptyView();
                         } else if (girlEntities.size() < PAGE_SIZE) {
-                            mView.fillData(girlEntities, needClear);
+                            //最后一页
+                            mView.updateData(girlEntities, false);
                             mView.hasNoMoreData();
                         } else if (girlEntities.size() == PAGE_SIZE) {
-                            mView.fillData(girlEntities, needClear);
-                            mCurrentPage++;
+                            //正常情况
+                            mView.updateData(girlEntities, false);
                         }
                     }
                 });
-
-
     }
 
     public void loadNextPage() {
-        needClear = false;
+        mCurrentPage++;
+        loadPage();
+    }
+
+    public void refreshPage() {
+        mCurrentPage = 1;
+        mView.clearData();
         loadPage();
     }
 }

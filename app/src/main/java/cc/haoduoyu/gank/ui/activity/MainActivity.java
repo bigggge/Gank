@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,11 +29,6 @@ public class MainActivity extends BaseSwipeRefreshActivity<GirlPresenter> implem
 
 
     @Override
-    protected void startRefresh() {
-        getData();
-    }
-
-    @Override
     protected void initPresenter() {
         mPresenter = new GirlPresenter(this, this);
     }
@@ -47,30 +42,6 @@ public class MainActivity extends BaseSwipeRefreshActivity<GirlPresenter> implem
         getData();
     }
 
-    private void getData() {
-//        mPresenter.loadPage(new Date(System.currentTimeMillis()));
-        mPresenter.loadPage();
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.activity_main;
-    }
-
-    @Override
-    public void fillData(List<GankEntity> data, boolean needClear) {
-        if (needClear) {
-            mAdapter.updateWithClear(data);
-        } else {
-            mAdapter.update(data);
-        }
-    }
-
-    @Override
-    public void hasNoMoreData() {
-        mHasMoreData = false;
-    }
-
     private void initRecycleView() {
         final LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -82,13 +53,56 @@ public class MainActivity extends BaseSwipeRefreshActivity<GirlPresenter> implem
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                boolean isBottom = layoutManager.findLastCompletelyVisibleItemPosition() >= mAdapter.getItemCount() - 6;
+                boolean isBottom = layoutManager.findLastCompletelyVisibleItemPosition() >= mAdapter.getItemCount() - 2;
                 if (!mSwipeRefreshLayout.isRefreshing() && isBottom && mHasMoreData) {
                     mPresenter.loadNextPage();
                 } else if (!mHasMoreData) {
-                    hasNoMoreData();
+                    Toast.makeText(MainActivity.this, "has no more data", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    @Override
+    protected void startRefresh() {
+        mPresenter.refreshPage();
+    }
+
+    private void getData() {
+        mPresenter.loadPage();
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void updateData(List<GankEntity> data, boolean needClear) {
+        if (needClear) {
+            mAdapter.updateWithClear(data);
+        } else {
+            mAdapter.update(data);
+        }
+    }
+
+    @Override
+    public void clearData() {
+        mAdapter.clearData();
+    }
+
+    @Override
+    public void hasNoMoreData() {
+        mHasMoreData = false;
+    }
+
+    @Override
+    public void showEmptyView() {
+        Toast.makeText(this, "empty", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showErrorView() {
+        Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
     }
 }

@@ -61,8 +61,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     public void update(List<GankEntity> data) {
-        gankEntityList = data;
+        gankEntityList.addAll(data);
         notifyDataSetChanged();
+    }
+
+    public void clearData() {
+        gankEntityList.clear();
     }
 
     public void setListener(OnClickItemListener onClickItemListener) {

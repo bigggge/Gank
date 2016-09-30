@@ -5,7 +5,9 @@ package cc.haoduoyu.gank.ui.view;
  */
 public interface IMainView<T> extends ISwipeRefreshView {
 
-    void fillData(T data, boolean needClear);
+    void updateData(T data, boolean needClear);
+
+    void clearData();
 
     void hasNoMoreData();
 }

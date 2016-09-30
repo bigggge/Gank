@@ -83,7 +83,7 @@ public class MainPresenter extends BasePresenter<IMainView> {
                             loadPage(new Date(date.getTime() - DAY_OF_MILLISECOND));
                         } else {
                             mCountOfDataEmptyDay = 0;
-                            mView.fillData(gankEntities, needClear);
+                            mView.updateData(gankEntities, needClear);
                         }
                     }
                 });

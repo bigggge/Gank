@@ -9,5 +9,7 @@ public interface ISwipeRefreshView extends IBaseView {
 
     void hideRefreshView();
 
+    void showEmptyView();
 
+    void showErrorView();
 }
